@@ -1,0 +1,16 @@
+{
+  "name": "2)-plano-de-teste-para-back-end",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./reporter.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "newman": "^5.3.0",
+    "newman-reporter-htmlextra": "^1.22.3"
+  }
+}
