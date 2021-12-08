@@ -1,0 +1,2760 @@
+{
+	"info": {
+		"_postman_id": "231e1f40-cfab-49af-a3b0-bb1ed2ea3af7",
+		"name": "LojinhaAPI",
+		"description": "API criada pelo Júlio de Lima para suportar seus alunos na aprendizagem de técnicas e ferramentas de teste de software.\n\nBase URL: 165.227.93.41/lojinha",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "usuario",
+			"item": [
+				{
+					"name": "Fazer login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+									"    pm.expect(jsonData.message).to.eql('Sucesso ao realizar o login');\r",
+									"});\r",
+									"\r",
+									"//Salvar token \r",
+									"if(pm.response.code === 200){\r",
+									"    pm.environment.set(\"authorization\", pm.response.json().data.token)\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"usuariologin\": \"{{usuarioLogin}}\",\r\n \"usuariosenha\": \"123456\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "CENÁRIO: Fazer login.\n\nDado: Campo login preenchido.\n\nE: Campo senha preenchido.\n\nQuando: Executo a requisição POST/login preenchendo os parâmetros com valores válidos\n\nEntão: API retorna status code 200.\n\nE: Retorna atributo \"data\"\n\nE: Retorna atributo \"token\"\n\nE: Retorna atributo \"message\"\n\nE: Retorna message \"Sucesso ao realizar o login\"\n\nE: Retorna atributo \"error\""
+					},
+					"response": []
+				},
+				{
+					"name": "Fazer login sem login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"usuariologin\": \"\",\r\n \"usuariosenha\": \"123456\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "CENÁRIO: Fazer login sem login.\n\nDado: Campo senha preenchido.\n\nQuando: Executo a requisição POST/login preenchendo os parâmetros com valores válidos\n\nEntão: API retorna status code 404."
+					},
+					"response": []
+				},
+				{
+					"name": "Fazer login sem senha",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"usuariologin\": \"{{usuarioLogin}}\",\r\n \"usuariosenha\": \"\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "CENÁRIO: Fazer login sem senha.\n\nDado: Campo login preenchido.\n\nQuando: Executo a requisição POST/login preenchendo os parâmetros com valores válidos\n\nEntão: API retorna status code 404."
+					},
+					"response": []
+				},
+				{
+					"name": "Adicionar usuário",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+									"    pm.expect(jsonData.message).to.eql('Usuário adicionado com sucesso');\r",
+									"});\r",
+									"\r",
+									"//Salvar usuarioLogin \r",
+									"if(pm.response.code === 201){\r",
+									"    pm.environment.set(\"usuarioLogin\", pm.response.json().data.usuariologin)\r",
+									"}\r",
+									"\r",
+									"//Salvar usuarioNome \r",
+									"if(pm.response.code === 201){\r",
+									"    pm.environment.set(\"usuarioNome\", pm.response.json().data.usuarionome)\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"usuarionome\": \"{{$randomFullName}}\",\r\n \"usuariologin\": \"{{$randomUserName}}\",\r\n \"usuariosenha\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/usuario",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"usuario"
+							]
+						},
+						"description": "CENÁRIO: Adicionar usuário.\n\nDado: Campo nome preenchido.\n\nE: Campo login preenchido.\n\nE: Campo senha preenchido.\n\nQuando: Executo a requisição POST/usuario preenchendo os parâmetros com valores válidos\n\nEntão: API retorna status code 201.\n\nE: Retorna atributo \"data\"\n\nE: Retorna data \"usuarioid\"\n\nE: Retorna data \"usuariologin\"\n\nE: Retorna data \"usuarionome\"\n\nE: Retorna atributo \"message\"\n\nE: Retorna message \"Usuário adicionado com sucesso\"\n\nE: Retorna atributo \"error\""
+					},
+					"response": []
+				},
+				{
+					"name": "Adicionar usuário já existente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 409\", function () {\r",
+									"    pm.response.to.have.status(409);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"usuarionome\": \"{{usuarioNome}}\",\r\n \"usuariologin\": \"{{usuarioLogin}}\",\r\n \"usuariosenha\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/usuario",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"usuario"
+							]
+						},
+						"description": "CENÁRIO: Adicionar usuário jpa existente.\n\nDado: Campo nome preenchido.\n\nE: Campo login preenchido.\n\nE: Campo senha preenchido.\n\nQuando: Executo a requisição POST/usuario preenchendo os parâmetros com valores já existentes.\n\nEntão: API retorna status code 409.\n\nE: Retorna atributo \"data\"\n\nE: Retorna atributo \"message\"\n\nE: Retorna message \"O usuário  já existe.\"\n\nE: Retorna atributo \"error\""
+					},
+					"response": []
+				},
+				{
+					"name": "Adicionar usuário sem senha",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"usuarionome\": \"{{$randomFullName}}\",\r\n \"usuariologin\": \"{{$randomUserName}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/usuario",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"usuario"
+							]
+						},
+						"description": "CENÁRIO: Adicionar usuário sem senha.\n\nDado: Campo nome preenchido.\n\nE: Campo login preenchido.\n\nQuando: Executo a requisição POST/usuario preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 201.\n\nE: Retorna atributo \"data\"\n\nE: Retorna data \"usuarioid\"\n\nE: Retorna data \"usuariologin\"\n\nE: Retorna data \"usuarionome\"\n\nE: Retorna atributo \"message\"\n\nE: Retorna message \"Usuário adicionado com sucesso\"\n\nE: Retorna atributo \"error\""
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/dados",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"dados"
+							]
+						},
+						"description": "CENÁRIO: Deletar usuario.\n\nDado: Campo token preenchido.\n\nQuando: Executo a requisição DEL/dados.\n\nEntão: API retorna status code 204."
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar usuario sem token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 500\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/dados",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"dados"
+							]
+						},
+						"description": "CENÁRIO: Deletar usuario.\n\nQuando: Executo a requisição DEL/dados.\n\nEntão: API retorna status code 500."
+					},
+					"response": []
+				}
+			],
+			"description": "Está rota é responsável pela criação de usuários, login e exclusão de usuários."
+		},
+		{
+			"name": "produto",
+			"item": [
+				{
+					"name": "Adicionar produto",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+									"    pm.expect(jsonData.message).to.eql('Produto adicionado com sucesso');\r",
+									"});\r",
+									"\r",
+									"//Salvar produtoid\r",
+									"if(pm.response.code === 201){\r",
+									"    pm.environment.set(\"prodId\", pm.response.json().data.produtoid)\r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"produtonome\": \"Celular\",\r\n \"produtovalor\": 1000,\r\n \"produtocores\": [\r\n \"azul\"\r\n ],\r\n \"componentes\": [\r\n {\r\n \"componentenome\": \"fone\",\r\n \"componentequantidade\": 1\r\n }\r\n ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/produto",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto"
+							]
+						},
+						"description": "CENÁRIO: Adicionar produto.\n\nDado: Que preencha todos campos.\n\nE: Campo token preenchido.\n\nQuando: Executo a requisição POST/produto preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 201.\n\nE: Retorna atributo \"data\"\n\nE: Retorna data \"produtoid\"\n\nE: Retorna data \"produtonome\"\n\nE: Retorna data \"produtovalor\"\n\nE: Retorna data \"produtocores\"\n\nE: Retorna data \"componentes\"\n\nE: Retorna data.componentes \"componenteid\"\n\nE: Retorna data.componentes \"componentenome\"\n\nE: Retorna data.componentes \"componentequantidade\"\n\nE: Retorna atributo \"message\"\n\nE: Retorna message \"Produto adicionado com sucesso\"\n\nE: Retorna atributo \"error\""
+					},
+					"response": []
+				},
+				{
+					"name": "Adicionar produto com todos campos vazios",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+									"    pm.expect(jsonData.message).to.eql('Ocorreram problemas ao registrar esse produto');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"produtonome\": \"\",\r\n \"produtovalor\": \"\",\r\n \"produtocores\": [\r\n \"\"\r\n ],\r\n \"componentes\": [\r\n {\r\n \"componentenome\": \"\",\r\n \"componentequantidade\": \"\"\r\n }\r\n ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/produto",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto"
+							]
+						},
+						"description": "CENÁRIO: Adicionar produto com campos em branco.\n\nDado: Campo token preenchido.\n\nQuando: Executo a requisição POST/produto.\n\nEntão: API retorna status code 400.\n\nE: Retorna atributo \"data\"\n\nE: Retorna atributo \"message\"\n\nE: Retorna message\" Ocorreram problemas ao registrar esse produto\"\n\nE: Retorna atributo \"error\""
+					},
+					"response": []
+				},
+				{
+					"name": "Adicionar produto sem token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"produtonome\": \"Celular\",\r\n \"produtovalor\": 1000,\r\n \"produtocores\": [\r\n \"azul\"\r\n ],\r\n \"componentes\": [\r\n {\r\n \"componentenome\": \"fone\",\r\n \"componentequantidade\": 1\r\n }\r\n ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/produto",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto"
+							]
+						},
+						"description": "CENÁRIO: Adicionar produto sem token.\n\nDado: Que preencha todos campos.\n\nQuando: Executo a requisição POST/produto preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 401."
+					},
+					"response": []
+				},
+				{
+					"name": "Liscar produtos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+									"    pm.expect(jsonData.message).to.eql('Listagem de produtos realizada com sucesso');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/produto",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto"
+							]
+						},
+						"description": "CENÁRIO: Listar produto.\n\nDado: Campo token preenchido.\n\nQuando: Executo a requisição GET/produto.\n\nEntão: API retorna status code 200.\n\nE: Retorna atributo \"data\"\n\nE: Retorna atributo \"message\"\n\nE: Retorna message \"Listagem de produtos realizada com sucesso\"\n\nE: Retorna atributo \"error\""
+					},
+					"response": []
+				},
+				{
+					"name": "Listar produtos sem token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/produto",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto"
+							]
+						},
+						"description": "CENÁRIO: Listar produto sem token.\n\nQuando: Executo a requisição GET/produto.\n\nEntão: API retorna status code 401."
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar  produto por ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+									"    pm.expect(jsonData.message).to.eql('Detalhando dados do produto');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/produto/{{prodId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"{{prodId}}"
+							]
+						},
+						"description": "CENÁRIO: Buscar produto por ID.\n\nDado: Campo Produto ID preenchido\n\nE: Campo token preenchido.\n\nQuando: Executo a requisição GET/produto/{prodId} preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 200.\n\nE: Retorna atributo \"data\"\n\nE: Retorna atributo \"message\"\n\nE: Retorna message \"Detalhando dados do produto\"\n\nE: Retorna atributo \"error\""
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar  produto por ID inválido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/produto/naoexiste",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"naoexiste"
+							]
+						},
+						"description": "CENÁRIO: Buscar produto por ID inválido.\n\nDado: Campo token preenchido.\n\nQuando: Executo a requisição GET/produto/{prodId}.\n\nEntão: API retorna status code 404."
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar  produto por ID sem token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/produto/{{prodId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"{{prodId}}"
+							]
+						},
+						"description": "CENÁRIO: Buscar produto por ID sem token.\n\nDado: Campo Produto ID preenchido\n\nQuando: Executo a requisição GET/produto/{prodId} preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 401."
+					},
+					"response": []
+				},
+				{
+					"name": "Editar  produto por ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+									"    pm.expect(jsonData.message).to.eql('Produto alterado com sucesso');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"produtonome\": \"caneta\",\r\n \"produtovalor\": 20,\r\n \"produtocores\": [\r\n \"vermelho\"\r\n ],\r\n \"componentes\": [\r\n {\r\n \"componentenome\": \"string\",\r\n \"componentequantidade\": 0\r\n }\r\n ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/produto/{{prodId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"{{prodId}}"
+							]
+						},
+						"description": "CENÁRIO: Editar produto por ID.\n\nDado: Campo Produto ID preenchido\n\nE: Campos preenchidos.\n\nE: Campo token preenchido.\n\nQuando: Executo a requisição PUT/produto/{prodId} preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 200.\n\nE: Retorna atributo \"data\"\n\nE: Retorna atributo \"message\"\n\nE: Retorna message \"Produto alterado com sucesso\"\n\nE: Retorna atributo \"error\""
+					},
+					"response": []
+				},
+				{
+					"name": "Editar  produto por ID com todos campos vazios",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+									"    pm.expect(jsonData.message).to.eql('Ocorreram problemas ao alterar esse produto');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"produtonome\": \"\",\r\n \"produtovalor\": \"\",\r\n \"produtocores\": [\r\n \"\"\r\n ],\r\n \"componentes\": [\r\n {\r\n \"componentenome\": \"\",\r\n \"componentequantidade\": \"\"\r\n }\r\n ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/produto/{{prodId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"{{prodId}}"
+							]
+						},
+						"description": "CENÁRIO: Editar produto por ID com campos vazio.\n\nDado: Campo Produto ID preenchido\n\nE: Campo token preenchido.\n\nQuando: Executo a requisição PUT/produto/{prodId} preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 400.\n\nE: Retorna atributo \"data\"\n\nE: Retorna atributo \"message\"\n\nE: Retorna message \"Ocorreram problemas ao alterar esse produto\"\n\nE: Retorna atributo \"error\""
+					},
+					"response": []
+				},
+				{
+					"name": "Editar  produto por ID inválido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"produtonome\": \"caneta\",\r\n \"produtovalor\": 20,\r\n \"produtocores\": [\r\n \"vermelho\"\r\n ],\r\n \"componentes\": [\r\n {\r\n \"componentenome\": \"string\",\r\n \"componentequantidade\": 0\r\n }\r\n ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/produto/123456",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"123456"
+							]
+						},
+						"description": "CENÁRIO: Editar produto por ID inválido.\n\nDado: Campos preenchidos.\n\nE: Campo token preenchido.\n\nQuando: Executo a requisição PUT/produto/{prodId} preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 404."
+					},
+					"response": []
+				},
+				{
+					"name": "Editar  produto por ID sem token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"produtonome\": \"caneta\",\r\n \"produtovalor\": 20,\r\n \"produtocores\": [\r\n \"vermelho\"\r\n ],\r\n \"componentes\": [\r\n {\r\n \"componentenome\": \"string\",\r\n \"componentequantidade\": 0\r\n }\r\n ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/produto/{{prodId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"{{prodId}}"
+							]
+						},
+						"description": "CENÁRIO: Editar produto por ID sem token.\n\nDado: Campo Produto ID preenchido\n\nE: Campos preenchidos.\n\nQuando: Executo a requisição PUT/produto/{prodId} preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 401."
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar produto por ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/produto/{{prodId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"{{prodId}}"
+							]
+						},
+						"description": "CENÁRIO: Excluir produto por ID.\n\nDado: Campo Produto ID preenchido\n\nE: Campo token preenchido.\n\nQuando: Executo a requisição DEL/produto/{prodId} preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 204."
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar produto por ID inválido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/produto/naoexiste",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"naoexiste"
+							]
+						},
+						"description": "CENÁRIO: Excluir produto por ID inválido.\n\nDado: Campo token preenchido.\n\nQuando: Executo a requisição DEL/produto/{prodId} preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 404."
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar produto por ID sem token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/produto/{{prodId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"{{prodId}}"
+							]
+						},
+						"description": "CENÁRIO: Excluir produto por ID sem token.\n\nDado: Campo Produto ID preenchido\n\nQuando: Executo a requisição DEL/produto/{prodId} preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 401."
+					},
+					"response": []
+				}
+			],
+			"description": "Gestão dos produtos do usuário"
+		},
+		{
+			"name": "componente",
+			"item": [
+				{
+					"name": "Adicionar componente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+									"    pm.expect(jsonData.message).to.eql('Componente de produto adicionado com sucesso');\r",
+									"});\r",
+									"\r",
+									"//Salvar compId\r",
+									"if(pm.response.code === 201){\r",
+									"    pm.environment.set(\"compId\", pm.response.json().data.componenteid)\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"componentenome\": \"teste\",\r\n \"componentequantidade\": 10\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/produto/{{prodId}}/componente",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"{{prodId}}",
+								"componente"
+							]
+						},
+						"description": "CENÁRIO: Adicionar componente.\n\nDado: Campo Produto ID preenchido\n\nE: Campos preenchidos.\n\nE: Campo token preenchido.\n\nQuando: Executo a requisição POST/produto/{prodId}/componente preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 201.\n\nE: Retorna atributo \"data\"\n\nE: Retorna data \"componenteid\"\n\nE: Retorna data \"componentenome\"\n\nE: Retorna data \"componentequantidade\"\n\nE: Retorna data \"produtoid\"\n\nE: Retorna atributo \"message\"\n\nE: Retorna message  \"Componente de produto adicionado com sucesso\"\n\nE: Retorna atributo \"error\""
+					},
+					"response": []
+				},
+				{
+					"name": "Adicionar componente campos vazios",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+									"    pm.expect(jsonData.message).to.eql('Ocorreram problemas ao registrar esse componente de produto');\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"componentenome\": \"\",\r\n \"componentequantidade\": \"\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/produto/{{prodId}}/componente",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"{{prodId}}",
+								"componente"
+							]
+						},
+						"description": "CENÁRIO: Adicionar componente campo vazio.\n\nDado: Campo Produto ID preenchido\n\nE: Campo token preenchido.\n\nQuando: Executo a requisição POST/produto/{prodId}/componente preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 400.\n\nE: Retorna atributo \"data\"\"\n\nE: Retorna atributo \"message\"\n\nE: Retorna message \"Ocorreram problemas ao registrar esse componente de produto\"\n\nE: Retorna atributo \"error\""
+					},
+					"response": []
+				},
+				{
+					"name": "Adicionar componente, Produto ID inválido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+									"    pm.expect(jsonData.message).to.eql('Ocorreram problemas ao registrar esse componente de produto');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"componentenome\": \"teste\",\r\n \"componentequantidade\": 10\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/produto/123456/componente",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"123456",
+								"componente"
+							]
+						},
+						"description": "CENÁRIO: Adicionar componente, Produto ID inválido.\n\nDado: Campo token preenchido.\n\nQuando: Executo a requisição POST/produto/{prodId}/componente preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 400.\n\nE: Retorna atributo \"data\"\"\n\nE: Retorna atributo \"message\"\n\nE: Retorna message  \"Ocorreram problemas ao registrar esse componente de produto\"\n\nE: Retorna atributo \"error\""
+					},
+					"response": []
+				},
+				{
+					"name": "Adicionar componente sem token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"componentenome\": \"teste\",\r\n \"componentequantidade\": 10\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/produto/{{prodId}}/componente",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"{{prodId}}",
+								"componente"
+							]
+						},
+						"description": "CENÁRIO: Adicionar componente sem token.\n\nDado: Campo Produto ID preenchido.\n\nE: Campos preenchidos.\n\nQuando: Executo a requisição POST/produto/{prodId}/componente preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 401."
+					},
+					"response": []
+				},
+				{
+					"name": "Listar componente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+									"    pm.expect(jsonData.message).to.eql('Listagem de componentes de produto realizada com sucesso');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/produto/{{prodId}}/componente",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"{{prodId}}",
+								"componente"
+							]
+						},
+						"description": "CENÁRIO: Listar componente.\n\nDado: Campo Produto ID preenchido\n\nE: Campo token preenchido.\n\nQuando: Executo a requisição GET/produto/{prodId}/componente preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 200.\n\nE: Retorna atributo \"data\"\n\nE: Retorna atributo \"message\"\n\nE: Retorna message \"Listagem de componentes de produto realizada com sucesso\"\n\nE: Retorna atributo \"error\""
+					},
+					"response": []
+				},
+				{
+					"name": "Listar componente, Produto ID inválido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+									"    pm.expect(jsonData.message).to.eql('Listagem de componentes de produto realizada com sucesso');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/produto/123456/componente",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"123456",
+								"componente"
+							]
+						},
+						"description": "CENÁRIO: Listar componente, produto ID inválido.\n\nDado: Campo token preenchido.\n\nQuando: Executo a requisição GET/produto/{prodId}/componente preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 200.\n\nE: Retorna atributo \"data\"\n\nE: Retorna atributo \"message\"\n\nE: Retorna message \"Listagem de componentes de produto realizada com sucesso\"\n\nE: Retorna atributo \"error\""
+					},
+					"response": []
+				},
+				{
+					"name": "Listar componente sem token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/produto/{{prodId}}/componente",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"{{prodId}}",
+								"componente"
+							]
+						},
+						"description": "CENÁRIO: Listar componente sem token.\n\nDado: Campo Produto ID preenchido\n\nQuando: Executo a requisição GET/produto/{prodId}/componente preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 401."
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar componente ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+									"    pm.expect(jsonData.message).to.eql('Detalhando dados do componente de produto');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/produto/{{prodId}}/componente/{{compId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"{{prodId}}",
+								"componente",
+								"{{compId}}"
+							]
+						},
+						"description": "CENÁRIO: Buscar componente por ID.\n\nDado: Campo Produto ID preenchido\n\nE: Campo Componente ID preenchido\n\nE: Campo token preenchido.\n\nQuando: Executo a requisição GET/produto/{prodId}/componente/{compId} preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 200.\n\nE: Retorna atributo \"data\"\n\nE: Retorna atributo \"message\"\n\nE: Retorna message  \"Detalhando dados do componente de produto\"\n\nE: Retorna atributo \"error\""
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar componente ID inválido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/produto/{{prodId}}/componente/123456",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"{{prodId}}",
+								"componente",
+								"123456"
+							]
+						},
+						"description": "CENÁRIO: Buscar componente por ID inválido.\n\nDado: Campo Produto ID preenchido\n\nE: Campo token preenchido.\n\nQuando: Executo a requisição GET/produto/{prodId}/componente/{compId} preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 404."
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar componente ID, Produto ID inválido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+									"    pm.expect(jsonData.message).to.eql('Detalhando dados do componente de produto');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/produto/123456/componente/{{compId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"123456",
+								"componente",
+								"{{compId}}"
+							]
+						},
+						"description": "CENÁRIO: Buscar componente por ID, produto ID inválido.\n\nDado: Campo Componente ID preenchido\n\nE: Campo token preenchido.\n\nQuando: Executo a requisição GET/produto/{prodId}/componente/{compId} preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 200.\n\nE: Retorna atributo \"data\"\n\nE: Retorna atributo \"message\"\n\nE: Retorna message  \"Detalhando dados do componente de produto\"\n\nE: Retorna atributo \"error\""
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar componente sem token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/produto/{{prodId}}/componente/{{compId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"{{prodId}}",
+								"componente",
+								"{{compId}}"
+							]
+						},
+						"description": "CENÁRIO: Buscar componente por ID sem token.\n\nDado: Campo Produto ID preenchido\n\nE: Campo Componente ID preenchido\n\nQuando: Executo a requisição GET/produto/{prodId}/componente/{compId} preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 401."
+					},
+					"response": []
+				},
+				{
+					"name": "Editar um componente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+									"    pm.expect(jsonData.message).to.eql('Componente de produto alterado com sucesso');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"componentenome\": \"testeEditado\",\r\n \"componentequantidade\": 20\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/produto/{{prodId}}/componente/{{compId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"{{prodId}}",
+								"componente",
+								"{{compId}}"
+							]
+						},
+						"description": "CENÁRIO: Editar componente.\n\nDado: Campo Produto ID preenchido\n\nE: Campo Componente ID preenchido\n\nE: Campos do body preenchidos.\n\nE: Campo token preenchido.\n\nQuando: Executo a requisição PUT/produto/{prodId}/componente/{compId} preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 200.\n\nE: Retorna atributo \"data\"\n\nE: Retorna atributo \"message\"\n\nE: Retorna message \"Componente de produto alterado com sucesso\""
+					},
+					"response": []
+				},
+				{
+					"name": "Editar componente ID inválido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"componentenome\": \"testeEditado\",\r\n \"componentequantidade\": 20\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/produto/{{prodId}}/componente/123456",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"{{prodId}}",
+								"componente",
+								"123456"
+							]
+						},
+						"description": "CENÁRIO: Editar componente ID inválido.\n\nDado: Campo Produto ID preenchido\n\nE: Campos do body preenchidos.\n\nE: Campo token preenchido.\n\nQuando: Executo a requisição PUT/produto/{prodId}/componente/{compId} preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 404."
+					},
+					"response": []
+				},
+				{
+					"name": "Editar componente, produto ID inválido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"componentenome\": \"testeEditado\",\r\n \"componentequantidade\": 20\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/produto/123456/componente/{{compId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"123456",
+								"componente",
+								"{{compId}}"
+							]
+						},
+						"description": "CENÁRIO: Editar componente, produto ID inválido.\n\nDado: Campo Componente ID preenchido\n\nE: Campos do body preenchidos.\n\nE: Campo token preenchido.\n\nQuando: Executo a requisição PUT/produto/{prodId}/componente/{compId} preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 404."
+					},
+					"response": []
+				},
+				{
+					"name": "Editar componente campos vazios",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+									"    pm.expect(jsonData.message).to.eql('Ocorreram problemas ao alterar esse componente de produto');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"componentenome\": \"\",\r\n \"componentequantidade\": \"\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/produto/{{prodId}}/componente/{{compId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"{{prodId}}",
+								"componente",
+								"{{compId}}"
+							]
+						},
+						"description": "CENÁRIO: Editar componente compos do body vazio.\n\nDado: Campo Produto ID preenchido\n\nE: Campo Componente ID preenchido\n\nE: Campo token preenchido.\n\nQuando: Executo a requisição PUT/produto/{prodId}/componente/{compId} preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 400.\n\nE: Retorna atributo \"data\"\n\nE: Retorna atributo \"message\"\n\nE: Retorna message \"Ocorreram problemas ao alterar esse componente de produto\"\n\nE: Retorna atributo \"error\""
+					},
+					"response": []
+				},
+				{
+					"name": "Editar componente sem token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"componentenome\": \"testeEditado\",\r\n \"componentequantidade\": 20\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/produto/{{prodId}}/componente/{{compId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"{{prodId}}",
+								"componente",
+								"{{compId}}"
+							]
+						},
+						"description": "CENÁRIO: Editar componente sem token.\n\nDado: Campo Produto ID preenchido\n\nE: Campo Componente ID preenchido\n\nE: Campos do body preenchidos.\n\nQuando: Executo a requisição PUT/produto/{prodId}/componente/{compId} preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 401."
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar componente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/produto/{{prodId}}/componente/{{compId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"{{prodId}}",
+								"componente",
+								"{{compId}}"
+							]
+						},
+						"description": "CENÁRIO: Excluir componente.\n\nDado: Campo Produto ID preenchido\n\nE: Campo Componente ID preenchido\n\nE: Campo token preenchido.\n\nQuando: Executo a requisição DEL/produto/{prodId}/componente/{compId} preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 204."
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar componente, Poduto ID inválido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/produto/123456/componente/{{compId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"123456",
+								"componente",
+								"{{compId}}"
+							]
+						},
+						"description": "CENÁRIO: Excluir componente, produto ID inválido.\n\nDado: Campo Produto ID preenchido\n\nE: Campo Componente ID preenchido\n\nE: Campo token preenchido.\n\nQuando: Executo a requisição DEL/produto/{prodId}/componente/{compId} preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 404."
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar componente ID inválido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/produto/{{prodId}}/componente/123456",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"{{prodId}}",
+								"componente",
+								"123456"
+							]
+						},
+						"description": "CENÁRIO: Excluir componente ID inválido.\n\nDado: Campo Produto ID preenchido\n\nE: Campo token preenchido.\n\nQuando: Executo a requisição DEL/produto/{prodId}/componente/{compId} preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 404."
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar componente sem token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/produto/{{prodId}}/componente/{{compId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"{{prodId}}",
+								"componente",
+								"{{compId}}"
+							]
+						},
+						"description": "CENÁRIO: Excluir componente sem token.\n\nDado: Campo Produto ID preenchido\n\nE: Campo Componente ID preenchido\n\nQuando: Executo a requisição DEL/produto/{prodId}/componente/{compId} preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 401."
+					},
+					"response": []
+				}
+			],
+			"description": "Gestão dos componentes de um determinado produto"
+		},
+		{
+			"name": "Caminhos Feliz",
+			"item": [
+				{
+					"name": "Adicionar usuário Caminho Feliz",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+									"    pm.expect(jsonData.message).to.eql('Usuário adicionado com sucesso');\r",
+									"});\r",
+									"\r",
+									"//Salvar usuarioLogin \r",
+									"if(pm.response.code === 201){\r",
+									"    pm.environment.set(\"usuarioLogin\", pm.response.json().data.usuariologin)\r",
+									"}\r",
+									"\r",
+									"//Salvar usuarioNome \r",
+									"if(pm.response.code === 201){\r",
+									"    pm.environment.set(\"usuarioNome\", pm.response.json().data.usuarionome)\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"usuarionome\": \"{{$randomFullName}}\",\r\n \"usuariologin\": \"{{$randomUserName}}\",\r\n \"usuariosenha\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/usuario",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"usuario"
+							]
+						},
+						"description": "CENÁRIO: Adicionar usuário.\n\nDado: Campo nome preenchido.\n\nE: Campo login preenchido.\n\nE: Campo senha preenchido.\n\nQuando: Executo a requisição POST/usuario preenchendo os parâmetros com valores válidos\n\nEntão: API retorna status code 201.\n\nE: Retorna atributo \"data\"\n\nE: Retorna data \"usuarioid\"\n\nE: Retorna data \"usuariologin\"\n\nE: Retorna data \"usuarionome\"\n\nE: Retorna atributo \"message\"\n\nE: Retorna message \"Usuário adicionado com sucesso\"\n\nE: Retorna atributo \"error\""
+					},
+					"response": []
+				},
+				{
+					"name": "Fazer login Caminho Feliz",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+									"    pm.expect(jsonData.message).to.eql('Sucesso ao realizar o login');\r",
+									"});\r",
+									"\r",
+									"//Salvar token \r",
+									"if(pm.response.code === 200){\r",
+									"    pm.environment.set(\"authorization\", pm.response.json().data.token)\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"usuariologin\": \"{{usuarioLogin}}\",\r\n \"usuariosenha\": \"123456\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "CENÁRIO: Fazer login.\n\nDado: Campo login preenchido.\n\nE: Campo senha preenchido.\n\nQuando: Executo a requisição POST/login preenchendo os parâmetros com valores válidos\n\nEntão: API retorna status code 200.\n\nE: Retorna atributo \"data\"\n\nE: Retorna atributo \"token\"\n\nE: Retorna atributo \"message\"\n\nE: Retorna message \"Sucesso ao realizar o login\"\n\nE: Retorna atributo \"error\""
+					},
+					"response": []
+				},
+				{
+					"name": "Adicionar produto Caminho Feliz",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+									"    pm.expect(jsonData.message).to.eql('Produto adicionado com sucesso');\r",
+									"});\r",
+									"\r",
+									"//Salvar produtoid\r",
+									"if(pm.response.code === 201){\r",
+									"    pm.environment.set(\"prodId\", pm.response.json().data.produtoid)\r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"produtonome\": \"Celular\",\r\n \"produtovalor\": 1000,\r\n \"produtocores\": [\r\n \"azul\"\r\n ],\r\n \"componentes\": [\r\n {\r\n \"componentenome\": \"fone\",\r\n \"componentequantidade\": 1\r\n }\r\n ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/produto",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto"
+							]
+						},
+						"description": "CENÁRIO: Adicionar produto.\n\nDado: Que preencha todos campos.\n\nE: Campo token preenchido.\n\nQuando: Executo a requisição POST/produto preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 201.\n\nE: Retorna atributo \"data\"\n\nE: Retorna data \"produtoid\"\n\nE: Retorna data \"produtonome\"\n\nE: Retorna data \"produtovalor\"\n\nE: Retorna data \"produtocores\"\n\nE: Retorna data \"componentes\"\n\nE: Retorna data.componentes \"componenteid\"\n\nE: Retorna data.componentes \"componentenome\"\n\nE: Retorna data.componentes \"componentequantidade\"\n\nE: Retorna atributo \"message\"\n\nE: Retorna message \"Produto adicionado com sucesso\"\n\nE: Retorna atributo \"error\""
+					},
+					"response": []
+				},
+				{
+					"name": "Liscar produtos Caminho Feliz",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+									"    pm.expect(jsonData.message).to.eql('Listagem de produtos realizada com sucesso');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/produto",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto"
+							]
+						},
+						"description": "CENÁRIO: Listar produto.\n\nDado: Campo token preenchido.\n\nQuando: Executo a requisição GET/produto.\n\nEntão: API retorna status code 200.\n\nE: Retorna atributo \"data\"\n\nE: Retorna atributo \"message\"\n\nE: Retorna message \"Listagem de produtos realizada com sucesso\"\n\nE: Retorna atributo \"error\""
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar  produto por ID Caminho Feliz",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+									"    pm.expect(jsonData.message).to.eql('Detalhando dados do produto');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/produto/{{prodId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"{{prodId}}"
+							]
+						},
+						"description": "CENÁRIO: Buscar produto por ID.\n\nDado: Campo Produto ID preenchido\n\nE: Campo token preenchido.\n\nQuando: Executo a requisição GET/produto/{prodId} preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 200.\n\nE: Retorna atributo \"data\"\n\nE: Retorna atributo \"message\"\n\nE: Retorna message \"Detalhando dados do produto\"\n\nE: Retorna atributo \"error\""
+					},
+					"response": []
+				},
+				{
+					"name": "Editar  produto por ID Caminho Feliz",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+									"    pm.expect(jsonData.message).to.eql('Produto alterado com sucesso');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"produtonome\": \"caneta\",\r\n \"produtovalor\": 20,\r\n \"produtocores\": [\r\n \"vermelho\"\r\n ],\r\n \"componentes\": [\r\n {\r\n \"componentenome\": \"string\",\r\n \"componentequantidade\": 0\r\n }\r\n ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/produto/{{prodId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"{{prodId}}"
+							]
+						},
+						"description": "CENÁRIO: Editar produto por ID.\n\nDado: Campo Produto ID preenchido\n\nE: Campos preenchidos.\n\nE: Campo token preenchido.\n\nQuando: Executo a requisição PUT/produto/{prodId} preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 200.\n\nE: Retorna atributo \"data\"\n\nE: Retorna atributo \"message\"\n\nE: Retorna message \"Produto alterado com sucesso\"\n\nE: Retorna atributo \"error\""
+					},
+					"response": []
+				},
+				{
+					"name": "Adicionar componente Caminho Feliz",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+									"    pm.expect(jsonData.message).to.eql('Componente de produto adicionado com sucesso');\r",
+									"});\r",
+									"\r",
+									"//Salvar compId\r",
+									"if(pm.response.code === 201){\r",
+									"    pm.environment.set(\"compId\", pm.response.json().data.componenteid)\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"componentenome\": \"teste\",\r\n \"componentequantidade\": 10\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/produto/{{prodId}}/componente",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"{{prodId}}",
+								"componente"
+							]
+						},
+						"description": "CENÁRIO: Adicionar componente.\n\nDado: Campo Produto ID preenchido\n\nE: Campos preenchidos.\n\nE: Campo token preenchido.\n\nQuando: Executo a requisição POST/produto/{prodId}/componente preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 201.\n\nE: Retorna atributo \"data\"\n\nE: Retorna data \"componenteid\"\n\nE: Retorna data \"componentenome\"\n\nE: Retorna data \"componentequantidade\"\n\nE: Retorna data \"produtoid\"\n\nE: Retorna atributo \"message\"\n\nE: Retorna message  \"Componente de produto adicionado com sucesso\"\n\nE: Retorna atributo \"error\""
+					},
+					"response": []
+				},
+				{
+					"name": "Listar componente Caminho Feliz",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+									"    pm.expect(jsonData.message).to.eql('Listagem de componentes de produto realizada com sucesso');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/produto/{{prodId}}/componente",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"{{prodId}}",
+								"componente"
+							]
+						},
+						"description": "CENÁRIO: Listar componente.\n\nDado: Campo Produto ID preenchido\n\nE: Campo token preenchido.\n\nQuando: Executo a requisição GET/produto/{prodId}/componente preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 200.\n\nE: Retorna atributo \"data\"\n\nE: Retorna atributo \"message\"\n\nE: Retorna message \"Listagem de componentes de produto realizada com sucesso\"\n\nE: Retorna atributo \"error\""
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar componente ID Caminho Feliz",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+									"    pm.expect(jsonData.message).to.eql('Detalhando dados do componente de produto');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/produto/{{prodId}}/componente/{{compId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"{{prodId}}",
+								"componente",
+								"{{compId}}"
+							]
+						},
+						"description": "CENÁRIO: Buscar componente por ID.\n\nDado: Campo Produto ID preenchido\n\nE: Campo Componente ID preenchido\n\nE: Campo token preenchido.\n\nQuando: Executo a requisição GET/produto/{prodId}/componente/{compId} preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 200.\n\nE: Retorna atributo \"data\"\n\nE: Retorna atributo \"message\"\n\nE: Retorna message  \"Detalhando dados do componente de produto\"\n\nE: Retorna atributo \"error\""
+					},
+					"response": []
+				},
+				{
+					"name": "Editar um componente Caminho Feliz",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+									"    pm.expect(jsonData.message).to.eql('Componente de produto alterado com sucesso');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"componentenome\": \"testeEditado\",\r\n \"componentequantidade\": 20\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/produto/{{prodId}}/componente/{{compId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"{{prodId}}",
+								"componente",
+								"{{compId}}"
+							]
+						},
+						"description": "CENÁRIO: Editar componente.\n\nDado: Campo Produto ID preenchido\n\nE: Campo Componente ID preenchido\n\nE: Campos do body preenchidos.\n\nE: Campo token preenchido.\n\nQuando: Executo a requisição PUT/produto/{prodId}/componente/{compId} preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 200.\n\nE: Retorna atributo \"data\"\n\nE: Retorna atributo \"message\"\n\nE: Retorna message \"Componente de produto alterado com sucesso\""
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar produto por ID Caminho Feliz",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/produto/{{prodId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produto",
+								"{{prodId}}"
+							]
+						},
+						"description": "CENÁRIO: Excluir produto por ID.\n\nDado: Campo Produto ID preenchido\n\nE: Campo token preenchido.\n\nQuando: Executo a requisição DEL/produto/{prodId} preenchendo os parâmetros com valores válidos.\n\nEntão: API retorna status code 204."
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar usuario Caminho Feliz",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tempo de resposta menor que 3 segundos\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/dados",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"dados"
+							]
+						},
+						"description": "CENÁRIO: Deletar usuario.\n\nDado: Campo token preenchido.\n\nQuando: Executo a requisição DEL/dados.\n\nEntão: API retorna status code 204."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
